@@ -1,57 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Game Susun Kata</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      margin-top: 40px;
+      margin: 0;
+      padding: 20px;
+      background: #f2f2f2;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    p {
+      font-size: 1rem;
+      margin-bottom: 20px;
     }
 
     .empty-boxes {
       display: flex;
       justify-content: center;
-      gap: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
       margin-bottom: 20px;
     }
 
     .box {
-      width: 80px;
-      height: 80px;
+      width: 70px;
+      height: 70px;
       border: 2px solid #333;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 32px;
+      font-size: 28px;
       font-weight: bold;
       background: #f9f9f9;
+      border-radius: 10px;
       transition: background 0.3s;
     }
 
     .letters {
       display: flex;
       justify-content: center;
-      gap: 15px;
       flex-wrap: wrap;
+      gap: 10px;
       max-width: 600px;
-      margin: 20px auto;
+      margin: 0 auto 20px;
     }
 
     .letter {
-      width: 70px;
-      height: 70px;
+      width: 65px;
+      height: 65px;
       border: 2px solid #007bff;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 28px;
+      font-size: 26px;
       font-weight: bold;
       background: #e6f0ff;
       cursor: pointer;
       transition: 0.2s;
+      border-radius: 10px;
     }
 
     .letter:hover {
@@ -61,9 +86,9 @@
     }
 
     #message {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: bold;
-      margin-top: 15px;
+      margin-top: 10px;
     }
 
     .correct {
@@ -74,12 +99,12 @@
       color: red;
     }
 
-    
     .box.correct {
-      background: #c6f6c6; 
+      background: #c6f6c6;
     }
+
     .box.wrong {
-      background: #f8c6c6; 
+      background: #f8c6c6;
     }
 
     button {
@@ -88,16 +113,16 @@
       font-size: 16px;
       cursor: pointer;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       background: #007bff;
       color: white;
+      transition: 0.3s;
     }
 
     button:hover {
       background: #0056b3;
     }
 
-   
     #audioBtn {
       font-size: 28px;
       background: none;
@@ -105,14 +130,68 @@
       cursor: pointer;
       margin-top: 10px;
     }
+
+    /* ✅ RESPONSIVE DESIGN */
+    @media (max-width: 768px) {
+      .box {
+        width: 55px;
+        height: 55px;
+        font-size: 22px;
+      }
+
+      .letter {
+        width: 55px;
+        height: 55px;
+        font-size: 22px;
+      }
+
+      img {
+        width: 100px;
+        height: 100px;
+      }
+
+      button {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 15px;
+      }
+
+      .empty-boxes {
+        gap: 8px;
+      }
+
+      .letters {
+        gap: 8px;
+      }
+
+      .box {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+      }
+
+      .letter {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+      }
+
+      #message {
+        font-size: 18px;
+      }
+    }
   </style>
 </head>
 <body>
-
   <h2>Game Susun Kata</h2>
-<img src="kucing.jpg" alt="" style="width: 100px; height: 100px;">
-<p>Apa nama hewan pada gambar diatas?</p>
- 
+  <img src="kucing.jpg" alt="Gambar hewan">
+  <p>Apa nama hewan pada gambar di atas?</p>
+
   <div class="empty-boxes">
     <div class="box"></div>
     <div class="box"></div>
@@ -122,7 +201,6 @@
     <div class="box"></div>
   </div>
 
- 
   <div class="letters">
     <div class="letter">U</div>
     <div class="letter">K</div>
@@ -132,14 +210,11 @@
     <div class="letter">N</div>
   </div>
 
- 
   <div id="message"></div>
 
- 
   <button onclick="resetGame()">Reset</button>
   <button id="audioBtn" onclick="toggleMusic()">🔇</button>
 
- 
   <audio id="bgMusic" loop>
     <source src="Super Mario Bros. Theme Song.mp3" type="audio/mpeg">
     Browser Anda tidak mendukung audio.
@@ -152,17 +227,15 @@
     const bgMusic = document.getElementById("bgMusic");
     const audioBtn = document.getElementById("audioBtn");
     let currentIndex = 0;
-    const correctAnswer = "KUCING"; 
+    const correctAnswer = "KUCING";
 
     letters.forEach(letter => {
       letter.addEventListener("click", () => {
         if (currentIndex < emptyBoxes.length && letter.style.visibility !== "hidden") {
-          
           emptyBoxes[currentIndex].textContent = letter.textContent;
           currentIndex++;
           letter.style.visibility = "hidden";
 
-         
           if (currentIndex === emptyBoxes.length) {
             checkAnswer();
           }
@@ -203,17 +276,15 @@
       currentIndex = 0;
     }
 
-   
     function toggleMusic() {
       if (bgMusic.paused) {
         bgMusic.play();
-        audioBtn.textContent = "🔊"; 
+        audioBtn.textContent = "🔊";
       } else {
         bgMusic.pause();
-        audioBtn.textContent = "🔇"; 
+        audioBtn.textContent = "🔇";
       }
     }
   </script>
-
 </body>
 </html>
