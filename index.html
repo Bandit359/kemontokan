@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halaman Game Edukatif</title>
+  <style>
+    * {
+      margin: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background-color: #f2f2f2;
+    }
+
+    .judul {
+      text-align: center;
+      color: white;
+      background-color: gray;
+      padding: 15px 10px;
+    }
+
+    .judul h1 {
+      margin-bottom: 5px;
+      font-size: 1.8rem;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap; /* biar otomatis turun ke bawah */
+      gap: 20px;
+      margin: 30px auto;
+      max-width: 1200px;
+      padding: 0 15px;
+    }
+
+    .card1 {
+      border: 1px solid #000;
+      border-radius: 15px;
+      width: 30%;
+      background-color: white;
+      text-align: center;
+      transition: 0.3s;
+      overflow: hidden;
+    }
+
+    .card1:hover {
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      transform: translateY(-5px);
+    }
+
+    .card1 img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+    }
+
+    .picik {
+      padding: 15px;
+    }
+
+    .picik p {
+      margin: 10px 0;
+    }
+
+    button {
+      background-color: gray;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 15px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #4d4d4d;
+    }
+
+    button a {
+      text-decoration: none;
+      color: white;
+    }
+
+    /* 🔹 Responsif untuk tablet */
+    @media (max-width: 900px) {
+      .card1 {
+        width: 45%;
+      }
+    }
+
+    /* 🔹 Responsif untuk HP */
+    @media (max-width: 600px) {
+      .judul h1 {
+        font-size: 1.4rem;
+      }
+
+      .card1 {
+        width: 100%;
+      }
+
+      .card1 img {
+        height: 180px;
+      }
+
+      .picik p {
+        font-size: 14px;
+      }
+
+      button {
+        padding: 6px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="judul">
+    <h1>Ini Adalah Halaman Game</h1>
+    <p>Pilih game apapun untuk dimainkan.</p>
+  </div>
+
+  <div class="container">
+    <div class="card1">
+      <img src="drag.png" alt="Game Drag">
+      <div class="picik">
+        <hr>
+        <p>Game Edukatif Hebat Mantap</p>
+        <button><a href="index.html">Drag and Drop</a></button>
+      </div>
+    </div>
+
+    <div class="card1">
+      <img src="susukata.png" alt="Game Susun Kata">
+      <div class="picik">
+        <hr>
+        <p>Game Edukatif Hebat Mantap</p>
+        <button><a href="coba.html">Susun Kata</a></button>
+      </div>
+    </div>
+
+    <div class="card1">
+      <img src="rintangan.png" alt="Game Naik Platform">
+      <div class="picik">
+        <hr>
+        <p>Game Edukatif Hebat Mantap</p>
+        <button><a href="gemend.html">Jawab untuk Naik</a></button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

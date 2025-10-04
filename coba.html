@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Susun Kata</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .empty-boxes {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .box {
+      width: 80px;
+      height: 80px;
+      border: 2px solid #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+      font-weight: bold;
+      background: #f9f9f9;
+      transition: background 0.3s;
+    }
+
+    .letters {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+
+    .letter {
+      width: 70px;
+      height: 70px;
+      border: 2px solid #007bff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 28px;
+      font-weight: bold;
+      background: #e6f0ff;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .letter:hover {
+      background: #007bff;
+      color: #fff;
+      transform: scale(1.1);
+    }
+
+    #message {
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    .correct {
+      color: green;
+    }
+
+    .wrong {
+      color: red;
+    }
+
+    
+    .box.correct {
+      background: #c6f6c6; 
+    }
+    .box.wrong {
+      background: #f8c6c6; 
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background: #007bff;
+      color: white;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+   
+    #audioBtn {
+      font-size: 28px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Game Susun Kata</h2>
+<img src="kucing.jpg" alt="" style="width: 100px; height: 100px;">
+<p>Apa nama hewan pada gambar diatas?</p>
+ 
+  <div class="empty-boxes">
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+  </div>
+
+ 
+  <div class="letters">
+    <div class="letter">U</div>
+    <div class="letter">K</div>
+    <div class="letter">C</div>
+    <div class="letter">I</div>
+    <div class="letter">G</div>
+    <div class="letter">N</div>
+  </div>
+
+ 
+  <div id="message"></div>
+
+ 
+  <button onclick="resetGame()">Reset</button>
+  <button id="audioBtn" onclick="toggleMusic()">🔇</button>
+
+ 
+  <audio id="bgMusic" loop>
+    <source src="Super Mario Bros. Theme Song.mp3" type="audio/mpeg">
+    Browser Anda tidak mendukung audio.
+  </audio>
+
+  <script>
+    const emptyBoxes = document.querySelectorAll(".box");
+    const letters = document.querySelectorAll(".letter");
+    const message = document.getElementById("message");
+    const bgMusic = document.getElementById("bgMusic");
+    const audioBtn = document.getElementById("audioBtn");
+    let currentIndex = 0;
+    const correctAnswer = "KUCING"; 
+
+    letters.forEach(letter => {
+      letter.addEventListener("click", () => {
+        if (currentIndex < emptyBoxes.length && letter.style.visibility !== "hidden") {
+          
+          emptyBoxes[currentIndex].textContent = letter.textContent;
+          currentIndex++;
+          letter.style.visibility = "hidden";
+
+         
+          if (currentIndex === emptyBoxes.length) {
+            checkAnswer();
+          }
+        }
+      });
+    });
+
+    function checkAnswer() {
+      let userAnswer = "";
+      emptyBoxes.forEach(box => {
+        userAnswer += box.textContent;
+      });
+
+      if (userAnswer === correctAnswer) {
+        message.textContent = "✅ Benar!";
+        message.className = "correct";
+        emptyBoxes.forEach(box => {
+          box.classList.remove("wrong");
+          box.classList.add("correct");
+        });
+      } else {
+        message.textContent = "❌ Salah, coba lagi!";
+        message.className = "wrong";
+        emptyBoxes.forEach(box => {
+          box.classList.remove("correct");
+          box.classList.add("wrong");
+        });
+      }
+    }
+
+    function resetGame() {
+      emptyBoxes.forEach(box => {
+        box.textContent = "";
+        box.classList.remove("correct", "wrong");
+      });
+      letters.forEach(letter => letter.style.visibility = "visible");
+      message.textContent = "";
+      currentIndex = 0;
+    }
+
+   
+    function toggleMusic() {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        audioBtn.textContent = "🔊"; 
+      } else {
+        bgMusic.pause();
+        audioBtn.textContent = "🔇"; 
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Naik Platform </title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+  body {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(to top, #aee1f9, #fff);
+    margin: 0;
+    padding: 0;
+    /* overflow: hidden; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .game-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    height: 65vh;
+    background: url('school-bg.png') no-repeat center/cover;
+    overflow: hidden;
+    border: 3px solid #3498db;
+    border-radius: 10px;
+    margin-top: 20px;
+  }
+
+  .character {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    transition: bottom 0.6s ease;
+    height: 70px;
+  }
+
+  .platform {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 20px;
+    background: #3498db;
+    border-radius: 10px;
+  }
+
+  .quiz-box {
+    background: white;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 15px;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    margin: 10px auto;
+    text-align: center;
+  }
+
+  button {
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #2176b3;
+  }
+
+ 
+
+  @media (max-width: 600px) {
+    .character { width: 60px; }
+    .quiz-box { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="game-container">
+  <div class="platform" style="bottom: 10px;"></div>
+  <div class="platform" style="bottom: 110px;"></div>
+  <div class="platform" style="bottom: 220px;"></div>
+  <div class="platform" style="bottom: 330px;"></div>
+  <img src="kucing.jpg" alt="karakter" class="character" id="character">
+</div>
+
+
+<div class="quiz-box" id="quizBox">
+  <h3 id="question">Pertanyaan akan muncul di sini</h3>
+  <div id="options"></div>
+</div>
+
+<script>
+const questions = [
+  {
+    question: "1. Siapa yang disebut sebagai pahlawan proklamator Indonesia?",
+    options: ["Sukarno dan Hatta", "Sudirman dan Diponegoro", "Kartini dan Cut Nyak Dien", "Soekarno dan Sudirman"],
+    correct: 0
+  },
+  {
+    question: "2. Ibukota Indonesia adalah ...",
+    options: ["Bandung", "Surabaya", "Jakarta", "Medan"],
+    correct: 2
+  },
+  {
+    question: "3. Hasil fotosintesis tumbuhan adalah ...",
+    options: ["Air dan garam", "Oksigen dan glukosa", "Karbon dioksida", "Mineral dan cahaya"],
+    correct: 1
+  }
+];
+
+let currentQuestion = 0;
+let currentHeight = 20; // posisi karakter awal
+const jumpHeight = 105; // jarak antar platform
+const character = document.getElementById("character");
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+
+function loadQuestion() {
+  const q = questions[currentQuestion];
+  questionEl.textContent = q.question;
+  optionsEl.innerHTML = "";
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(i);
+    optionsEl.appendChild(btn);
+  });
+}
+
+function checkAnswer(i) {
+  const q = questions[currentQuestion];
+  if (i === q.correct) {
+    Swal.fire({
+      title: "Benar! 🎉",
+      text: "Kamu naik ke platform berikutnya!",
+      icon: "success",
+      confirmButtonColor: "#3498db",
+      confirmButtonText: "Lanjut Naik 🚀",
+      background: "#f0f9ff"
+    }).then(() => {
+      currentHeight += jumpHeight;
+      moveCharacter();
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        loadQuestion();
+      } else {
+        Swal.fire({
+          title: "Selamat! 🏫",
+          text: "Kamu sudah sampai di puncak sekolah!",
+          icon: "success",
+          confirmButtonColor: "#27ae60",
+          confirmButtonText: "Tamat 🎓"
+        });
+        questionEl.textContent = "Kamu sudah mencapai puncak!";
+        optionsEl.innerHTML = "";
+      }
+    });
+  } else {
+    Swal.fire({
+      title: "Salah 😅",
+      text: "Kamu turun ke bawah!",
+      icon: "error",
+      confirmButtonColor: "#e74c3c",
+      confirmButtonText: "Coba Lagi 🔁"
+    }).then(() => {
+      currentHeight = Math.max(20, currentHeight - jumpHeight);
+      moveCharacter();
+      loadQuestion();
+    });
+  }
+}
+
+function moveCharacter() {
+  character.style.bottom = currentHeight + "px";
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
